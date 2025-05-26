@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gambling Affiliate Directory - Sweepstakes, Sportsbooks & Poker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f4c75 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 50px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .filters {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+
+        .filter-select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-left: auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4ecdc4;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        main {
+            padding: 40px 0;
+        }
+
+        .section-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .card-type {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ecdc4;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-content {
+            margin-bottom: 20px;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .info-value {
+            color: white;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: rgba(46, 213, 115, 0.2);
+            color: #2ed573;
+        }
+
+        .status-restricted {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .card-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .state-selector {
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .state-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .state-button {
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .state-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .state-button.selected {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-color: #4ecdc4;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .stats {
+                margin: 20px 0 0 0;
+                justify-content: center;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                min-width: auto;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #4ecdc4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🎰 GambleAffiliates</div>
+                <div class="search-container">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" class="search-input" placeholder="Search casinos, sportsbooks, poker sites..." id="searchInput">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="filters">
+        <div class="container">
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="sweepstakes">Sweepstakes Casinos</option>
+                        <option value="sportsbook">Sportsbooks</option>
+                        <option value="poker">Poker Sites</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">State</label>
+                    <select class="filter-select" id="stateFilter">
+                        <option value="all">All States</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CA">California</option>
+                        <option value="TX">Texas</option>
+                        <option value="FL">Florida</option>
+                        <option value="NY">New York</option>
+                        <option value="NJ">New Jersey</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Affiliate Program</label>
+                    <select class="filter-select" id="affiliateFilter">
+                        <option value="all">All Programs</option>
+                        <option value="yes">Has Affiliate Program</option>
+                        <option value="referral">Referral Only</option>
+                    </select>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalSites">156</div>
+                        <div class="stat-label">Total Sites</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="filteredSites">156</div>
+                        <div class="stat-label">Showing</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="section-tabs">
+                <button class="tab-button active" data-tab="all">All Sites</button>
+                <button class="tab-button" data-tab="sweepstakes">Sweepstakes Casinos</button>
+                <button class="tab-button" data-tab="sportsbook">Sportsbooks</button>
+                <button class="tab-button" data-tab="poker">Poker Sites</button>
+            </div>
+
+            <div class="grid" id="sitesGrid">
+                <!-- Sites will be populated by JavaScript -->
+            </div>
+
+            <div class="no-results" id="noResults" style="display: none;">
+                <div class="no-results-icon">🔍</div>
+                <h3>No sites found</h3>
+                <p>Try adjusting your filters or search terms</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Site data
+        const sitesData = {
+            sweepstakes: [
+                {
+                    name: "Stake.us",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Popular crypto-style sweepstakes casino with modern games and fast payouts.",
+                    bonus: "250,000 Gold Coins + 25 Stake Cash",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA", "NV"]
+                },
+                {
+                    name: "Chumba Casino",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "One of the original sweepstakes casinos with real cash prizes through social gameplay.",
+                    bonus: "2,000,000 Gold Coins + 2 Sweeps Coins",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "Pulsz",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Premium sweepstakes casino with high-quality slots and excellent mobile experience.",
+                    bonus: "367,000 Gold Coins + 32.3 Sweeps Coins",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "WOW Vegas",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Vegas-style sweepstakes casino with frequent promotions and daily bonuses.",
+                    bonus: "250,000 WOW Coins + 5 Sweeps Coins",
+                    minDeposit: "$9.99",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "Fortune Coins",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Feature-rich sweepstakes casino with unique Fortune Coins currency system.",
+                    bonus: "360,000 Gold Coins + 1,200 Fortune Coins",
+                    minDeposit: "$4.99",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "McLuck",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Lucky-themed sweepstakes casino with generous welcome bonuses.",
+                    bonus: "57,500 Gold Coins + 27.5 Sweeps Coins",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA", "NV", "MI", "MT"]
+                },
+                {
+                    name: "High 5 Casino",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Established sweepstakes casino with High 5 Games exclusive content.",
+                    bonus: "250 Gold Coins + 5 Sweeps Coins",
+                    minDeposit: "$9.99",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "Funzpoints",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Fun-focused sweepstakes casino with unique Funzpoints system.",
+                    bonus: "250,000 Premium Funzpoints",
+                    minDeposit: "$4.99",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA", "NV"]
+                },
+                {
+                    name: "LuckyLand Slots",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Slot-focused sweepstakes casino with lucky-themed games.",
+                    bonus: "222,000 Gold Coins + 3 Sweeps Coins",
+                    minDeposit: "$9.99",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA", "NV"]
+                },
+                {
+                    name: "Mega Bonanza",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Features over 1,200 games and mobile app functionality with tiered affiliate requirements.",
+                    bonus: "100,000 Gold Coins + 50 Sweeps Coins",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "Jackpota",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Hosts over 950 slot games including high-volatility titles like Buffalo King Megaways.",
+                    bonus: "70 Gold Coins minimum spin",
+                    minDeposit: "$5",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "Spinfinite",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "Offers 200% first-purchase bonus with slots, arcade, and fishing titles from 15+ developers.",
+                    bonus: "200% First Purchase Bonus",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                },
+                {
+                    name: "Gold Treasure Casino",
+                    type: "sweepstakes",
+                    affiliate: "yes",
+                    description: "New players receive generous welcome bonus, operates in 34 U.S. states.",
+                    bonus: "100,000 Gold Coins + 3 Sweepstakes Coins",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA", "MI"]
+                }
+            ],
+            sportsbooks: [
+                {
+                    name: "BetMGM",
+                    type: "sportsbook",
+                    affiliate: "yes",
+                    description: "Leading multi-state sportsbook with comprehensive betting options and live streaming.",
+                    bonus: "Up to $1,500 First Bet Offer",
+                    minDeposit: "$10",
+                    states: ["CO", "NJ", "NY", "PA", "MI"],
+                    restricted: []
+                },
+                {
+                    name: "DraftKings",
+                    type: "sportsbook",
+                    affiliate: "yes",
+                    description: "Popular daily fantasy turned sportsbook with excellent mobile app and promotions.",
+                    bonus: "Bet $5, Get $200 in Bonus Bets",
+                    minDeposit: "$5",
+                    states: ["CO", "NJ", "NY", "PA", "MI"],
+                    restricted: []
+                },
+                {
+                    name: "FanDuel",
+                    type: "sportsbook",
+                    affiliate: "yes",
+                    description: "Top-rated sportsbook with competitive odds and user-friendly interface.",
+                    bonus: "Bet $5, Get $200 if Your Bet Wins",
+                    minDeposit: "$10",
+                    states: ["CO", "NJ", "NY", "PA", "MI"],
+                    restricted: []
+                },
+                {
+                    name: "Caesars Sportsbook",
+                    type: "sportsbook",
+                    affiliate: "yes",
+                    description: "Las Vegas casino brand with generous rewards program and bonuses.",
+                    bonus: "Up to $1,000 First Bet on Caesars",
+                    minDeposit: "$20",
+                    states: ["CO", "NJ", "NY", "PA", "MI"],
+                    restricted: []
+                },
+                {
+                    name: "BetRivers",
+                    type: "sportsbook",
+                    affiliate: "yes",
+                    description: "Regional sportsbook with strong local presence and competitive lines.",
+                    bonus: "Up to $500 Second Chance Bet",
+                    minDeposit: "$10",
+                    states: ["CO", "NJ", "NY", "PA", "MI"],
+                    restricted: []
+                },
+                {
+                    name: "PointsBet",
+                    type: "sportsbook",
+                    affiliate: "yes",
+                    description: "Australian-based sportsbook known for unique PointsBetting feature.",
+                    bonus: "Up to $500 in Bonus Bets",
+                    minDeposit: "$5",
+                    states: ["CO", "NJ", "NY", "PA", "MI"],
+                    restricted: []
+                }
+            ],
+            poker: [
+                {
+                    name: "ClubWPT (WPT Gold)",
+                    type: "poker",
+                    affiliate: "yes",
+                    description: "Official World Poker Tour sweepstakes poker with tournament play and cash prizes.",
+                    bonus: "Welcome Package + Tournament Entries",
+                    minDeposit: "$20",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA", "MI", "MT"]
+                },
+                {
+                    name: "Global Poker",
+                    type: "poker",
+                    affiliate: "referral",
+                    description: "Leading sweepstakes poker site with cash games and tournaments using Gold Coins and Sweeps Cash.",
+                    bonus: "10,000 Gold Coins + $1 Sweeps Cash",
+                    minDeposit: "$5",
+                    states: ["CO", "CA", "TX", "NJ"],
+                    restricted: ["ID", "WA", "NV", "NY", "MI", "FL"]
+                },
+                {
+                    name: "Stake.us Poker",
+                    type: "poker",
+                    affiliate: "yes",
+                    description: "Crypto-style sweepstakes poker room with modern interface and fast gameplay.",
+                    bonus: "250,000 Gold Coins + 25 Stake Cash",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NJ"],
+                    restricted: ["ID", "WA", "NV", "KY", "MI", "NY", "VT"]
+                },
+                {
+                    name: "ClubsPoker",
+                    type: "poker",
+                    affiliate: "yes",
+                    description: "Social poker platform with club-based gameplay and sweepstakes elements.",
+                    bonus: "Free Play Credits + Bonus Package",
+                    minDeposit: "$10",
+                    states: ["CO", "CA", "TX", "FL", "NY", "NJ"],
+                    restricted: ["ID", "WA"]
+                }
+            ]
+        };
+
+        // Combine all data
+        let allSites = [...sitesData.sweepstakes, ...sitesData.sportsbooks, ...sitesData.poker];
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const stateFilter = document.getElementById('stateFilter');
+        const affiliateFilter = document.getElementById('affiliateFilter');
+        const sitesGrid = document.getElementById('sitesGrid');
+        const noResults = document.getElementById('noResults');
+        const totalSites = document.getElementById('totalSites');
+        const filteredSites = document.getElementById('filteredSites');
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        // Event listeners
+        searchInput.addEventListener('input', handleSearch);
+        categoryFilter.addEventListener('change', handleFilterChange);
+        stateFilter.addEventListener('change', handleFilterChange);
+        affiliateFilter.addEventListener('change', handleFilterChange);
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentFilter = button.dataset.tab;
+                categoryFilter.value = currentFilter === 'all' ? 'all' : currentFilter;
+                filterAndDisplaySites();
+            });
+        });
+
+        function handleSearch(e) {
+            currentSearch = e.target.value.toLowerCase();
+            filterAndDisplaySites();
+        }
+
+        function handleFilterChange() {
+            currentFilter = categoryFilter.value;
+            filterAndDisplaySites();
+        }
+
+        function filterAndDisplaySites() {
+            let filtered = allSites;
+
+            // Filter by category
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(site => site.type === currentFilter);
+            }
+
+            // Filter by state
+            const selectedState = stateFilter.value;
+            if (selectedState !== 'all') {
+                filtered = filtered.filter(site => 
+                    site.states.includes(selectedState) && 
+                    !site.restricted.includes(selectedState)
+                );
+            }
+
+            // Filter by affiliate program
+            const affiliateType = affiliateFilter.value;
+            if (affiliateType !== 'all') {
+                filtered = filtered.filter(site => site.affiliate === affiliateType);
+            }
+
+            // Filter by search
+            if (currentSearch) {
+                filtered = filtered.filter(site => 
+                    site.name.toLowerCase().includes(currentSearch) ||
+                    site.description.toLowerCase().includes(currentSearch) ||
+                    site.type.toLowerCase().includes(currentSearch)
+                );
+            }
+
+            displaySites(filtered);
+            updateStats(filtered.length);
+        }
+
+        function displaySites(sites) {
+            if (sites.length === 0) {
+                sitesGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            sitesGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            sitesGrid.innerHTML = sites.map(site => createSiteCard(site)).join('');
+        }
+
+        function createSiteCard(site) {
+            const typeColors = {
+                sweepstakes: '#4ecdc4',
+                sportsbook: '#ff6b6b',
+                poker: '#45b7d1'
+            };
+
+            const typeLabels = {
+                sweepstakes: 'Sweepstakes Casino',
+                sportsbook: 'Sportsbook',
+                poker: 'Poker Site'
+            };
+
+            const availableStates = site.states.slice(0, 3);
+            const moreStates = site.states.length > 3 ? `+${site.states.length - 3} more` : '';
+
+            return `
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">${site.name}</h3>
+                            <div class="card-type" style="background: rgba(${hexToRgb(typeColors[site.type])}, 0.2); color: ${typeColors[site.type]}">
+                                ${typeLabels[site.type]}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="card-info">
+                            <div class="info-row">
+                                <span class="info-label">Affiliate Program:</span>
+                                <span class="info-value">${site.affiliate === 'yes' ? '✅ Yes' : '🔄 Referral Only'}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Welcome Bonus:</span>
+                                <span class="info-value">${site.bonus}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Min Deposit:</span>
+                                <span class="info-value">${site.minDeposit}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Available States:</span>
+                                <span class="info-value">${availableStates.join(', ')} ${moreStates}</span>
+                            </div>
+                            ${site.restricted.length > 0 ? `
+                            <div class="info-row">
+                                <span class="info-label">Restricted:</span>
+                                <span class="info-value" style="color: #ff6b6b">${site.restricted.join(', ')}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <p class="card-description">${site.description}</p>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary" onclick="handleVisitSite('${site.name}')">
+                            Join ${site.affiliate === 'yes' ? 'Affiliate Program' : 'Referral Program'}
+                        </a>
+                        <button class="btn btn-secondary" onclick="showDetails('${site.name}')">
+                            Details
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? 
+                `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+                '255, 255, 255';
+        }
+
+        function updateStats(filtered) {
+            totalSites.textContent = allSites.length;
+            filteredSites.textContent = filtered;
+        }
+
+        function handleVisitSite(siteName) {
+            // In a real application, this would redirect to the affiliate link
+            alert(`Redirecting to ${siteName} affiliate program...`);
+        }
+
+        function showDetails(siteName) {
+            const site = allSites.find(s => s.name === siteName);
+            if (!site) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${site.name}</h2>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="detail-section">
+                            <h3>Program Details</h3>
+                            <ul>
+                                <li><strong>Type:</strong> ${site.type.charAt(0).toUpperCase() + site.type.slice(1)}</li>
+                                <li><strong>Affiliate Program:</strong> ${site.affiliate === 'yes' ? 'Full Affiliate Program Available' : 'Referral Program Only'}</li>
+                                <li><strong>Welcome Bonus:</strong> ${site.bonus}</li>
+                                <li><strong>Minimum Deposit:</strong> ${site.minDeposit}</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <h3>State Availability</h3>
+                            <p><strong>Available in:</strong> ${site.states.join(', ')}</p>
+                            ${site.restricted.length > 0 ? `<p><strong>Restricted in:</strong> ${site.restricted.join(', ')}</p>` : ''}
+                        </div>
+                        <div class="detail-section">
+                            <h3>Description</h3>
+                            <p>${site.description}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="handleVisitSite('${site.name}')">
+                            Join Program
+                        </button>
+                        <button class="btn btn-secondary" onclick="closeModal()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            
+            // Add modal styles if not already present
+            if (!document.getElementById('modal-styles')) {
+                const styles = document.createElement('style');
+                styles.id = 'modal-styles';
+                styles.textContent = `
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(0, 0, 0, 0.8);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 1000;
+                        padding: 20px;
+                    }
+                    
+                    .modal-content {
+                        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f4c75 100%);
+                        border-radius: 20px;
+                        max-width: 600px;
+                        width: 100%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                    }
+                    
+                    .modal-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 25px;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    }
+                    
+                    .modal-header h2 {
+                        color: white;
+                        margin: 0;
+                    }
+                    
+                    .modal-close {
+                        background: none;
+                        border: none;
+                        color: rgba(255, 255, 255, 0.7);
+                        font-size: 2rem;
+                        cursor: pointer;
+                        padding: 0;
+                        width: 40px;
+                        height: 40px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                        transition: all 0.3s ease;
+                    }
+                    
+                    .modal-close:hover {
+                        background: rgba(255, 255, 255, 0.1);
+                        color: white;
+                    }
+                    
+                    .modal-body {
+                        padding: 25px;
+                    }
+                    
+                    .detail-section {
+                        margin-bottom: 25px;
+                    }
+                    
+                    .detail-section h3 {
+                        color: #4ecdc4;
+                        margin-bottom: 15px;
+                        font-size: 1.2rem;
+                    }
+                    
+                    .detail-section ul {
+                        list-style: none;
+                        padding: 0;
+                    }
+                    
+                    .detail-section li {
+                        color: rgba(255, 255, 255, 0.9);
+                        margin-bottom: 8px;
+                        padding-left: 15px;
+                        position: relative;
+                    }
+                    
+                    .detail-section li:before {
+                        content: '•';
+                        color: #4ecdc4;
+                        position: absolute;
+                        left: 0;
+                    }
+                    
+                    .detail-section p {
+                        color: rgba(255, 255, 255, 0.8);
+                        line-height: 1.6;
+                    }
+                    
+                    .modal-footer {
+                        padding: 25px;
+                        border-top: 1px solid rgba(255, 255, 255, 0.1);
+                        display: flex;
+                        gap: 15px;
+                        justify-content: flex-end;
+                    }
+                `;
+                document.head.appendChild(styles);
+            }
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.modal-overlay');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Initialize the page
+        function init() {
+            // Add more states to the state filter
+            const states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
+            
+            const stateNames = {
+                'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
+                'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
+                'HI': 'Hawaii', 'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas',
+                'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts',
+                'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi', 'MO': 'Missouri', 'MT': 'Montana',
+                'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico',
+                'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio', 'OK': 'Oklahoma',
+                'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',
+                'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont',
+                'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
+            };
+
+            // Clear existing options except "All States"
+            stateFilter.innerHTML = '<option value="all">All States</option>';
+            
+            // Add state options
+            states.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = `${stateNames[state]} (${state})`;
+                stateFilter.appendChild(option);
+            });
+
+            filterAndDisplaySites();
+        }
+
+        // Add some loading animation
+        function showLoading() {
+            sitesGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+        }
+
+        // Add smooth scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add scroll to top button
+        const scrollButton = document.createElement('div');
+        scrollButton.innerHTML = '↑';
+        scrollButton.className = 'scroll-to-top';
+        scrollButton.onclick = scrollToTop;
+        document.body.appendChild(scrollButton);
+
+        // Add scroll to top button styles
+        const scrollStyles = document.createElement('style');
+        scrollStyles.textContent = `
+            .scroll-to-top {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 1.5rem;
+                font-weight: bold;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                transition: all 0.3s ease;
+                z-index: 1000;
+                opacity: 0;
+                visibility: hidden;
+            }
+            
+            .scroll-to-top:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            }
+            
+            .scroll-to-top.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+        `;
+        document.head.appendChild(scrollStyles);
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollButton.classList.add('visible');
+            } else {
+                scrollButton.classList.remove('visible');
+            }
+        });
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
